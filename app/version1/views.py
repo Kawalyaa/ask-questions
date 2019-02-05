@@ -1,8 +1,8 @@
 from flask_restful import Resource
 from flask import make_response, jsonify, request
 from app.version1.models import MyBlogModel
-import datetime
-import time
+# import datetime
+# import time
 
 
 class MyBlog(Resource, MyBlogModel):

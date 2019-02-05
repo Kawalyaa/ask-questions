@@ -4,7 +4,6 @@ import datetime
 import time
 blog_list = []
 date_and_time = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
-blog_id = len(blog_list) + 1
 
 
 class MyBlogModel():
@@ -14,7 +13,7 @@ class MyBlogModel():
 
     def add_blog(self, tittle, description):
         data = {
-            'blog_id': blog_id,
+            'blog_id': len(self.db) + 1,
             'tittle': tittle,
             'description': description,
             'date_and_time': self.dt

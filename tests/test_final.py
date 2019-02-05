@@ -57,11 +57,6 @@ class TestMyBlog(unittest.TestCase):
         response = self.client.delete(path, content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
-    # def test_missing_fields_in_data(self):
-    #    response = self.client.post(path='/api/v1/blog', data=json.dumps(self.incomplete), content_type='application/json')
-    #    self.assertNotEqual(response.status_code, 400)
-    #    self.assertTrue(b'Missing fields' in response.data)
-
     def test_posting_missing_field_and_invalid_input(self):
         resp = self.client.post(path='/api/v1/blog', data=json.dumps(self.incomplete), content_type='application/json')
         self.assertEqual(resp.status_code, 200)
