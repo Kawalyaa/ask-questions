@@ -4,6 +4,7 @@ import datetime
 import time
 blog_list = []
 date_and_time = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+blog_id = len(blog_list) + 1
 
 
 class MyBlogModel():
@@ -13,11 +14,16 @@ class MyBlogModel():
 
     def add_blog(self, tittle, description):
         data = {
-            'blog_id': len(self.db) + 1,
+            'blog_id': blog_id,
             'tittle': tittle,
             'description': description,
             'date_and_time': self.dt
         }
+        all_blogs = (data['tittle'], data['description'])
+
+        if not all(all_blogs):
+            return jsonify({'message': 'Missing fields'}), 400
+
         self.db.append(data)
         return self.db
 
@@ -52,8 +58,10 @@ class MyBlogModel():
         }), 201)
 
     def delete_one(self, blog_id):
-        for ablog in self.db:
-            if ablog['blog_id'] == blog_id:
-                self.db.remove(ablog)
-                return make_response(jsonify({"message": 'blog with id {} is deleted'.format(blog_id)}), 200)
-        return make_response(jsonify({"message": 'Blog id is not found'}), 404)
+        try:
+            for ablog in self.db:
+                if ablog['blog_id'] == blog_id:
+                    self.db.remove(ablog)
+                    return make_response(jsonify({"message": 'blog with id {} is deleted'.format(blog_id)}), 200)
+        except ValueError:
+            return make_response(jsonify({"message": 'Blog id is not found'}), 404)
