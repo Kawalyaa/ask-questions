@@ -60,7 +60,7 @@ class TestMyBlog(unittest.TestCase):
     def test_posting_missing_field_and_invalid_input(self):
         resp = self.client.post(path='/api/v1/blog', data=json.dumps(self.incomplete), content_type='application/json')
         self.assertEqual(resp.status_code, 200)
-        self.assertTrue(b'Inverid or missing fields' in resp.data)
+        self.assertTrue(b'field empty' in resp.data)
 
 
 if __name__ == '__main__':

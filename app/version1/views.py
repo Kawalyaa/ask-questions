@@ -10,18 +10,24 @@ class MyBlog(Resource, MyBlogModel):
         self.db = MyBlogModel()
 
     def post(self):
-        try:
             data = request.get_json()
             tittle = data['tittle']
             description = data['description']
+            if not tittle:
+                return jsonify({"message": "field empty"})
+            elif not description:
+                return jsonify({"message": "field empty"})
+            elif isinstance(tittle, int):
+                return jsonify({"message": "should be a string"})
+            elif isinstance(description, int):
+                return jsonify({"message": "should be a string"})
             respo = self.db.add_blog(tittle, description)
             return make_response(jsonify({
                 "message": 'ok',
                 "my_blog": respo
 
             }), 201)
-        except TypeError:
-            return jsonify({'message': 'Inverid or missing fields'})
+        # return jsonify({'message': 'Inverid or missing fields'})
 
     def get(self):
         all_blogs = self.db.get_blogs()
